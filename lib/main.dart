@@ -8,7 +8,7 @@ void main() => runApp(PetPulseApp());
 class PetPulseApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Pet Pulse', debugShowCheckedModeBanner: false, theme: ThemeData(primarySwatch: MaterialColor(0xFFF97316, {50: Color(0xFFFFF3E0), 100: Color(0xFFFFE0B2), 500: Color(0xFFF97316), 900: Color(0xFFE65100)})), home: MainNav());
+    return MaterialApp(title: 'Pet Pulse', debugShowCheckedModeBanner: false, theme: ThemeData(primaryColor: Color(0xFFF97316), scaffoldBackgroundColor: Color(0xFFFFFFFF)), home: MainNav());
   }
 }
 class MainNav extends StatefulWidget {
