@@ -1,6 +1,9 @@
 // หน้าแรก Pet Pulse - ซ้าย Pet Pulse / กลาง TH EN / ขวา Login-User
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:math';
 class HomeScreen extends StatefulWidget { final String petType; const HomeScreen({this.petType = 'dog'}); @override State<HomeScreen> createState() => _HomeState(); }
 class _HomeState extends State<HomeScreen> {
   String lang = 'th';
@@ -10,7 +13,7 @@ class _HomeState extends State<HomeScreen> {
   String t(String th, String en) => lang == 'th' ? th : en;
   @override void initState() { super.initState(); _load(); }
   Future<void> _load() async { final p = await SharedPreferences.getInstance(); setState(() { userName = p.getString('petpulse_user'); loading = false; }); }
-  Future<void> _saveUser(String name) async { final p = await SharedPreferences.getInstance(); await p.setString('petpulse_user', name); setState(() => userName = name); }
+  Future<void> _saveUser(String name, {String? email, String? phone}) async { final p = await SharedPreferences.getInstance(); await p.setString('petpulse_user', name); if (email != null) await p.setString('petpulse_email', email); if (phone != null) await p.setString('petpulse_phone', phone); if (p.getString('petpulse_registered_at') == null) await p.setString('petpulse_registered_at', DateTime.now().toIso8601String()); var did = p.getString('petpulse_device_id'); if (did == null) { did = 'dev-${DateTime.now().millisecondsSinceEpoch}-${Random().nextInt(999999)}'; await p.setString('petpulse_device_id', did); } setState(() => userName = name); try { await http.post(Uri.parse('https://pett-api.5access.site/api/members/register'), headers: {'Content-Type': 'application/json'}, body: jsonEncode({'email': email ?? '${name}@petpulse.local', 'device_id': did, 'name': name})); } catch (_) {} }
   Future<void> _logout() async { final p = await SharedPreferences.getInstance(); await p.remove('petpulse_user'); setState(() => userName = null); }
   Widget _topBar() {
     return Row(children: [
@@ -26,7 +29,7 @@ class _HomeState extends State<HomeScreen> {
   @override Widget build(BuildContext context) {
     if (loading) return Center(child: CircularProgressIndicator(color: Color(0xFFF97316)));
     if (userName == null) {
-      final userC = TextEditingController(); final passC = TextEditingController();
+      final userC = TextEditingController(); final passC = TextEditingController(); final emailC = TextEditingController(); final phoneC = TextEditingController();
       return ListView(padding: EdgeInsets.all(20), children: [
         _topBar(),
         SizedBox(height: 24),
@@ -36,9 +39,13 @@ class _HomeState extends State<HomeScreen> {
         SizedBox(height: 20),
         TextField(controller: userC, decoration: InputDecoration(labelText: t('ชื่อผู้ใช้', 'Username'), hintText: t('เช่น nss98', 'e.g. nss98'), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)))),
         SizedBox(height: 12),
+        TextField(controller: emailC, keyboardType: TextInputType.emailAddress, decoration: InputDecoration(labelText: t('อีเมล', 'Email'), hintText: t('เช่น nss98@gmail.com', 'e.g. nss98@gmail.com'), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)))),
+        SizedBox(height: 12),
+        TextField(controller: phoneC, keyboardType: TextInputType.phone, decoration: InputDecoration(labelText: t('เบอร์มือถือ', 'Phone'), hintText: t('เช่น 0812345678', 'e.g. 0812345678'), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)))),
+        SizedBox(height: 12),
         TextField(controller: passC, obscureText: true, decoration: InputDecoration(labelText: t('รหัสผ่าน', 'Password'), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)))),
         SizedBox(height: 16),
-        ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFF97316), padding: EdgeInsets.all(16)), onPressed: () async { if (userC.text.trim().isEmpty) { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('กรุณาใส่ชื่อผู้ใช้', 'Please enter username')))); return; } if (passC.text.trim().isEmpty) { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('กรุณาใส่รหัสผ่าน', 'Please enter password')))); return; } if (isRegister) { final p = await SharedPreferences.getInstance(); await p.setString('petpulse_pass_${userC.text.trim()}', passC.text.trim()); } else { final p = await SharedPreferences.getInstance(); final saved = p.getString('petpulse_pass_${userC.text.trim()}'); if (saved != null && saved != passC.text.trim()) { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('รหัสผ่านไม่ถูกต้อง', 'Wrong password')))); return; } if (saved == null && userC.text.trim() != 'admin') { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('ยังไม่มีบัญชี กรุณาลงทะเบียน', 'No account yet, please register')))); return; } } await _saveUser(userC.text.trim()); }, child: Text(isRegister ? t('ลงทะเบียน', 'Register') : t('เข้าสู่ระบบ', 'Login'), style: TextStyle(fontSize: 20, color: Color(0xFFFFFFFF)))),
+        ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFF97316), padding: EdgeInsets.all(16)), onPressed: () async { if (userC.text.trim().isEmpty) { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('กรุณาใส่ชื่อผู้ใช้', 'Please enter username')))); return; } if (passC.text.trim().isEmpty) { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('กรุณาใส่รหัสผ่าน', 'Please enter password')))); return; } if (isRegister && emailC.text.trim().isEmpty) { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('กรุณาใส่อีเมล', 'Please enter email')))); return; } if (isRegister && phoneC.text.trim().isEmpty) { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('กรุณาใส่เบอร์มือถือ', 'Please enter phone')))); return; } if (isRegister) { final p = await SharedPreferences.getInstance(); await p.setString('petpulse_pass_${userC.text.trim()}', passC.text.trim()); } else { final p = await SharedPreferences.getInstance(); final saved = p.getString('petpulse_pass_${userC.text.trim()}'); if (saved != null && saved != passC.text.trim()) { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('รหัสผ่านไม่ถูกต้อง', 'Wrong password')))); return; } if (saved == null && userC.text.trim() != 'admin') { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('ยังไม่มีบัญชี กรุณาลงทะเบียน', 'No account yet, please register')))); return; } } await _saveUser(userC.text.trim(), email: emailC.text.trim().isEmpty ? null : emailC.text.trim(), phone: phoneC.text.trim().isEmpty ? null : phoneC.text.trim()); }, child: Text(isRegister ? t('ลงทะเบียน', 'Register') : t('เข้าสู่ระบบ', 'Login'), style: TextStyle(fontSize: 20, color: Color(0xFFFFFFFF)))),
         SizedBox(height: 12),
         TextButton(onPressed: () => setState(() => isRegister = !isRegister), child: Text(isRegister ? t('มีบัญชีแล้ว? เข้าสู่ระบบ', 'Already have account? Login') : t('ยังไม่มีบัญชี? ลงทะเบียน', 'No account? Register'), style: TextStyle(color: Color(0xFFF97316), fontSize: 16))),
       ]);
