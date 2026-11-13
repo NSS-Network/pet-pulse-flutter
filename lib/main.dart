@@ -1,35 +1,34 @@
 import 'package:flutter/material.dart';
 import 'screens/home.dart';
+import 'screens/pet_select.dart';
 import 'screens/feeder.dart';
-import 'screens/camera.dart';
-import 'screens/schedule.dart';
 import 'screens/history.dart';
-import 'screens/about.dart';
-void main() => runApp(const PetPulseApp());
+import 'screens/profile.dart';
+void main() => runApp(PetPulseApp());
 class PetPulseApp extends StatelessWidget {
-  const PetPulseApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Pet Pulse', debugShowCheckedModeBanner: false, theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF97316)), useMaterial3: true), home: const PetPulseHome());
+    return MaterialApp(title: 'Pet Pulse', debugShowCheckedModeBanner: false, theme: ThemeData(primarySwatch: MaterialColor(0xFFF97316, {50: Color(0xFFFFF3E0), 100: Color(0xFFFFE0B2), 500: Color(0xFFF97316), 900: Color(0xFFE65100)})), home: MainNav());
   }
 }
-class PetPulseHome extends StatefulWidget {
-  const PetPulseHome({super.key});
+class MainNav extends StatefulWidget {
   @override
-  State<PetPulseHome> createState() => _PetPulseHomeState();
+  _MainNavState createState() => _MainNavState();
 }
-class _PetPulseHomeState extends State<PetPulseHome> {
-  int _idx = 0;
-  final _pages = [HomeScreen(petType: 'dog'), FeederScreen(), CameraScreen(), ScheduleScreen(), HistoryScreen(), AboutScreen()];
+class _MainNavState extends State<MainNav> {
+  int _index = 0;
+  final _pages = [HomeScreen(), PetSelectScreen(onSelect: (pet) {}), FeederScreen(), HistoryScreen(), ProfileScreen()];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: _pages[_idx]), bottomNavigationBar: BottomNavigationBar(currentIndex: _idx, selectedItemColor: Color(0xFFF97316), unselectedItemColor: Colors.grey, type: BottomNavigationBarType.fixed, onTap: (i) => setState(() => _idx = i), items: [
-      BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
-      BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: 'ให้อาหาร'),
-      BottomNavigationBarItem(icon: Icon(Icons.videocam), label: 'กล้อง'),
-      BottomNavigationBarItem(icon: Icon(Icons.schedule), label: 'ตั้งเวลา'),
-      BottomNavigationBarItem(icon: Icon(Icons.history), label: 'ประวัติ'),
-      BottomNavigationBarItem(icon: Icon(Icons.info), label: 'คืออะไร'),
-    ]));
+    return Scaffold(
+      body: _pages[_index],
+      floatingActionButton: FloatingActionButton(backgroundColor: Color(0xFFF97316), child: Icon(Icons.add, size: 32, color: Color(0xFFFFFFFF)), onPressed: () => setState(() => _index = 2)),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(shape: CircularNotchedRectangle(), notchMargin: 8, child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [_item(Icons.home, 'หน้าแรก', 0), _item(Icons.pets, 'น้องแมว', 1), SizedBox(width: 48), _item(Icons.chat_bubble, 'ความคิดเห็น', 3), _item(Icons.person, 'โปรไฟล์', 4)])),
+    );
+  }
+  Widget _item(IconData icon, String label, int i) {
+    final active = _index == i;
+    return InkWell(onTap: () => setState(() => _index = i), child: Padding(padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8), child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(icon, color: active ? Color(0xFFF97316) : Color(0xFF9E9E9E)), Text(label, style: TextStyle(fontSize: 13, color: active ? Color(0xFFF97316) : Color(0xFF9E9E9E), fontWeight: active ? FontWeight.bold : FontWeight.normal))])));
   }
 }
