@@ -21,7 +21,6 @@ class HomeScreen extends StatelessWidget {
       SizedBox(height: 20),
       Container(padding: EdgeInsets.all(16), decoration: BoxDecoration(color: Colors.orange.shade50, borderRadius: BorderRadius.circular(16)), child: Column(children: [Text('🐱🐈', style: TextStyle(fontSize: 48)), Text('น้องกำลังเต้นรอคุณอยู่...', style: TextStyle(fontSize: 18))])),
       SizedBox(height: 12),
-      Text('📱 โหลดแอพ Pet Pulse v1.41 (Android)', textAlign: TextAlign.center, style: TextStyle(color: Colors.blue)),
     ]);
   }
 }
