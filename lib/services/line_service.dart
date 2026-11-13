@@ -6,7 +6,7 @@ class LineService {
     if (PettData.lineToken.isEmpty) return false;
     final res = await http.post(Uri.parse('https://api.line.me/v2/bot/message/push'),
       headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${PettData.lineToken}'},
-      body: jsonEncode({'to': PettData.memberId, 'messages': [{'type': 'text', 'text': text}]}));
+      body: jsonEncode({'to': PettData.lineTargetId, 'messages': [{'type': 'text', 'text': text}]}));
     return res.statusCode == 200;
   }
   static Future<bool> sendFeedingAlert(String petName, String food) async {
