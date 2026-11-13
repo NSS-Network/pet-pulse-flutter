@@ -20,7 +20,7 @@ class PetPulseHome extends StatefulWidget {
 class _PetPulseHomeState extends State<PetPulseHome> {
   int _idx = 0;
   String? _petType;
-  final _pages = [HomeScreen(), FeederScreen(), CameraScreen(), ScheduleScreen()];
+  List<Widget> get _pages => [HomeScreen(petType: _petType ?? 'dog'), FeederScreen(), CameraScreen(), ScheduleScreen()];
   @override
   Widget build(BuildContext context) {
     if (_petType == null) return Scaffold(body: SafeArea(child: PetSelectScreen(onSelect: (v) => setState(() => _petType = v))));
