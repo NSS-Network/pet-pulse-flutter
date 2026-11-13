@@ -1,58 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-
+import 'screens/home.dart';
+import 'screens/feeder.dart';
+import 'screens/camera.dart';
+import 'screens/schedule.dart';
 void main() => runApp(const PetPulseApp());
-
 class PetPulseApp extends StatelessWidget {
   const PetPulseApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pet Pulse',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF97316)), useMaterial3: true),
-      home: const PetPulseWeb(),
-    );
+    return MaterialApp(title: 'Pet Pulse', debugShowCheckedModeBanner: false, theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF97316)), useMaterial3: true), home: const PetPulseHome());
   }
 }
-
-class PetPulseWeb extends StatefulWidget {
-  const PetPulseWeb({super.key});
+class PetPulseHome extends StatefulWidget {
+  const PetPulseHome({super.key});
   @override
-  State<PetPulseWeb> createState() => _PetPulseWebState();
+  State<PetPulseHome> createState() => _PetPulseHomeState();
 }
-
-class _PetPulseWebState extends State<PetPulseWeb> {
-  late final WebViewController _c;
-  bool _loading = true;
-  @override
-  void initState() {
-    super.initState();
-    _c = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(NavigationDelegate(
-        onPageFinished: (_) => setState(() => _loading = false),
-      ))
-      ..loadRequest(Uri.parse('https://pet.5access.site/'));
-  }
+class _PetPulseHomeState extends State<PetPulseHome> {
+  int _idx = 0;
+  final _pages = [HomeScreen(), FeederScreen(), CameraScreen(), ScheduleScreen()];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(children: [
-          WebViewWidget(controller: _c),
-          if (_loading) const Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-            CircularProgressIndicator(color: Color(0xFFF97316)),
-            SizedBox(height: 12),
-            Text('🐾 Pet Pulse กำลังโหลด...', style: TextStyle(fontWeight: FontWeight.bold)),
-          ])),
-        ]),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFFF97316),
-        onPressed: () => _c.loadRequest(Uri.parse('https://pet.5access.site/')),
-        child: const Icon(Icons.refresh, color: Colors.white),
-      ),
-    );
+    return Scaffold(body: SafeArea(child: _pages[_idx]), bottomNavigationBar: BottomNavigationBar(currentIndex: _idx, selectedItemColor: Color(0xFFF97316), unselectedItemColor: Colors.grey, type: BottomNavigationBarType.fixed, onTap: (i) => setState(() => _idx = i), items: [
+      BottomNavigationBarItem(icon: Icon(Icons.home), label: 'หน้าแรก'),
+      BottomNavigationBarItem(icon: Icon(Icons.restaurant), label: 'ให้อาหาร'),
+      BottomNavigationBarItem(icon: Icon(Icons.videocam), label: 'กล้อง'),
+      BottomNavigationBarItem(icon: Icon(Icons.schedule), label: 'ตั้งเวลา'),
+    ]));
   }
 }
