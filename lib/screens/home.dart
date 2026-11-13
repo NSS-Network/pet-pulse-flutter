@@ -7,10 +7,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(padding: EdgeInsets.all(20), children: [
       SizedBox(height: 8),
-      Text('🐾 Pet Pulse — PetPulse IoT | Pet Care', style: TextStyle(fontSize: 16, color: Colors.grey)),
+      Text('Pet Pulse - Pet Friendly❤️', style: TextStyle(fontSize: 16, color: Colors.grey)),
       SizedBox(height: 16),
-      Text('รู้สถานะน้องแมว', style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold)),
-      Text('❤ทันที❤', style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.red)),
+      RichText(text: TextSpan(style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black), children: [TextSpan(text: 'รู้สถานะน้องแมว '), TextSpan(text: '❤️ทันที❤️', style: TextStyle(color: Colors.red))])),
       SizedBox(height: 12),
       Text('แจ้งเตือนเข้ามือถือทันที เมื่อน้องต้องการอาหาร วัคซีน หรือตรวจสุขภาพ', style: TextStyle(fontSize: 20, color: Colors.black87)),
       SizedBox(height: 20),
