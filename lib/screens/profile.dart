@@ -8,6 +8,8 @@ class ProfileScreen extends StatelessWidget {
       SizedBox(height: 16),
       ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFF97316), padding: EdgeInsets.all(16)), onPressed: () {}, child: Text('จ่ายเงิน / ต่ออายุ - Subscription', style: TextStyle(fontSize: 20, color: Color(0xFFFFFFFF)))),
       SizedBox(height: 12),
+      ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF2196F3), padding: EdgeInsets.all(16)), onPressed: () async { final ok = await LineService.sendVaccineAlert('มังคุค', '3'); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? 'ส่งวัคซีนแล้ว ❤' : 'ส่งไม่สำเร็จ'))); }, child: Text('ทดสอบวัคซีน - อีก 3 วัน', style: TextStyle(fontSize: 20, color: Color(0xFFFFFFFF)))),
+      SizedBox(height: 12),
       ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF06C755), padding: EdgeInsets.all(16)), onPressed: () async { final ok = await LineService.sendFeedingAlert('มิมิ', '100g'); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? 'ส่ง LINE แล้ว ❤' : 'ส่งไม่สำเร็จ - เช็ค Token'))); }, child: Text('ทดสอบส่ง LINE', style: TextStyle(fontSize: 20, color: Color(0xFFFFFFFF)))),
       SizedBox(height: 12),
       Text('SETTING ทั้งหมด', style: TextStyle(fontWeight: FontWeight.bold)),
