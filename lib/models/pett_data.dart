@@ -7,7 +7,7 @@ class PettData {
     PettPet(name: 'มังคุค', type: 'cat', age: 2, weight: 4.2),
   ];
   static List<String> feedingTimes = ['08:00 - 100g', '18:00 - 100g'];
-  static String lineToken = '' // ไม่เก็บ Token ใน Flutter - ใช้ backend อย่างเดียว;
+  static String lineToken = ''; // ไม่เก็บ Token ใน Flutter
   static String lineTargetId = '';
   static String memberId = '';
   static String backendUrl = 'https://pett-api.5access.site'; // ใส่ URL backend pett v2 เช่น https://xxx
