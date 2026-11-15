@@ -33,7 +33,7 @@ class _HomeState extends State<HomeScreen> {
       return ListView(padding: EdgeInsets.all(20), children: [
         _topBar(),
         SizedBox(height: 24),
-        Text(isRegister ? t('ลงทะเบียน', 'Register') : t('เข้าสู่ระบบ', 'Login'), textAlign: TextAlign.center, style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+        Text(isRegister ? t('ลงทะเบียน', 'Register') : t('เข้าสู่ระบบ', 'Login'), textAlign: TextAlign.center, style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
         SizedBox(height: 8),
         Text(t('ลงทะเบียน / เข้าสู่ระบบก่อนใช้งาน', 'Please register / login to continue'), textAlign: TextAlign.center, style: TextStyle(color: Colors.grey)),
         SizedBox(height: 20),
@@ -55,7 +55,7 @@ class _HomeState extends State<HomeScreen> {
     return ListView(padding: EdgeInsets.all(20), children: [
       _topBar(),
       SizedBox(height: 16),
-      RichText(text: TextSpan(style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black), children: [TextSpan(text: t('รู้สถานะน้องแมว ', 'Know your cat status ')), TextSpan(text: '❤️${t('ทันที', 'Now')}❤️', style: TextStyle(color: Colors.red))])),
+      RichText(text: TextSpan(style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black), children: [TextSpan(text: t('รู้สถานะน้องแมว ', 'Know your cat status ')), TextSpan(text: '❤️${t('ทันที', 'Now')}❤️', style: TextStyle(color: Colors.red))])),
       SizedBox(height: 12),
       Text(t('แจ้งเตือนเข้ามือถือทันที เมื่อน้องต้องการอาหาร วัคซีน หรือตรวจสุขภาพ', 'Instant alerts to your phone when your pet needs food, vaccine or health check'), style: TextStyle(fontSize: 20, color: Colors.black87)),
       SizedBox(height: 20),
