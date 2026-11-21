@@ -24,7 +24,7 @@ class _MainNavState extends State<MainNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_index],
-      floatingActionButton: FloatingActionButton(backgroundColor: Color(0xFFF97316), child: Icon(Icons.add, size: 32, color: Color(0xFFFFFFFF)), onPressed: () => setState(() => _index = 2)),
+      floatingActionButton: FloatingActionButton(backgroundColor: Color(0xFFF97316), child: Icon(Icons.add, size: 32, color: Color(0xFFFFFFFF)), onPressed: () => setState(() => _index = 1)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(shape: CircularNotchedRectangle(), notchMargin: 8, child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [_item(Icons.home, 'หน้าแรก', 0), _item(Icons.pets, 'น้องแมว', 1), SizedBox(width: 48), _item(Icons.chat_bubble, 'ความคิดเห็น', 3), _item(Icons.person, 'โปรไฟล์', 4)])),
     );
