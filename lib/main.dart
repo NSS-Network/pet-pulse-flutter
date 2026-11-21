@@ -29,7 +29,7 @@ class MainNav extends StatefulWidget {
 }
 class _MainNavState extends State<MainNav> {
   int _index = 0;
-  final _pages = [HomeScreen(), PetSelectScreen(onSelect: (pet) {}), FeederScreen(), HistoryScreen(), ProfileScreen()];
+  List<Widget> get _pages => [HomeScreen(onAddPet: () => setState(() => _index = 1)), PetSelectScreen(onSelect: (pet) {}), FeederScreen(), HistoryScreen(), ProfileScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
