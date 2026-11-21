@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/line_service.dart';
 class ProfileScreen extends StatefulWidget { @override State<ProfileScreen> createState() => _ProfileState(); }
 class _ProfileState extends State<ProfileScreen> {
   String lang = 'th';
+  String userName = '';
+  @override void initState() { super.initState(); _loadUser(); }
+  Future<void> _loadUser() async { final prefs = await SharedPreferences.getInstance(); setState(() { userName = prefs.getString('petpulse_user') ?? ''; }); }
   String t(String th, String en) => lang == 'th' ? th : en;
   @override Widget build(BuildContext context) {
     return ListView(padding: EdgeInsets.all(16), children: [
-      Row(children: [CircleAvatar(radius: 28, backgroundColor: Color(0xFFFFE0B2), child: Text('👤', style: TextStyle(fontSize: 28))), SizedBox(width: 12), Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(t('เบอร์สมาชิก: PP-9061752', 'Member: PP-9061752'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFF97316))), Text('Pet Friendly - TH | EN')])]),
+      Row(children: [CircleAvatar(radius: 28, backgroundColor: Color(0xFFFFE0B2), child: Text('👤', style: TextStyle(fontSize: 28))), SizedBox(width: 12), Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(t(userName.isEmpty ? 'ยังไม่เข้าสู่ระบบ' : 'สมาชิก: $userName', userName.isEmpty ? 'Not logged in' : 'Member: $userName'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFF97316))), Text('Pet Friendly - TH | EN')])]),
       SizedBox(height: 16),
       ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFF97316), padding: EdgeInsets.all(16)), onPressed: () { showDialog(context: context, builder: (_) => AlertDialog(title: Text(t('Subscription - มังคุค', 'Subscription - Mangkuk')), content: Text(t('รายเดือน 99 บาท / รายปี 990 บาท\nกดยืนยันเพื่อต่ออายุ', 'Monthly 99 THB / Yearly 990 THB\nTap Confirm to renew')), actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text(t('ปิด', 'Close'))), ElevatedButton(onPressed: () { Navigator.pop(context); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t('ต่ออายุแล้ว - ขอบคุณที่รัก ❤️', 'Renewed - Thank you ❤️')))); }, child: Text(t('ยืนยันต่ออายุ', 'Confirm Renew')))])); }, child: Text(t('จ่ายเงิน / ต่ออายุ - Subscription', 'Pay / Renew - Subscription'), style: TextStyle(fontSize: 20, color: Color(0xFFFFFFFF)))),
       SizedBox(height: 12),

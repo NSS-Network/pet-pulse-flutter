@@ -10,7 +10,7 @@ class PettData {
   static String lineToken = ''; // ไม่เก็บ Token ใน Flutter
   static String lineTargetId = '';
   static String memberId = '';
-  static String backendUrl = 'https://pett-api.5access.site'; // ใส่ URL backend pett v2 เช่น https://xxx
-  static String customerId = 'PP-9061752';
+  static String backendUrl = ''; // ใช้ Backend v2 บน 5access-iot (7001) ผ่าน home.dart // ใส่ URL backend pett v2 เช่น https://xxx
+  static String customerId = ''; // ดึงจาก User ที่ Login จริง ไม่ Hardcode แล้ว
   static String lang = 'th';
 }
