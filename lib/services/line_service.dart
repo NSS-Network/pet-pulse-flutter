@@ -7,7 +7,7 @@ class LineService {
     try {
       final res = await http.post(Uri.parse('${PettData.backendUrl}/api/line/test'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'customer_id': PettData.customerId, 'message': text, 'type': type, 'cat_name': 'มังคุค'}));
+        body: jsonEncode({'customer_id': PettData.customerId, 'message': text, 'type': type, 'cat_name': 'น้องแมว'}));
       return res.statusCode == 200;
     } catch (e) { return false; }
   }

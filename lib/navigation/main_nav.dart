@@ -17,8 +17,8 @@ class _MainNavState extends State<MainNav> {
     HomeScreen(onAddPet: () => setState(() => _index = 1)),
     PetSelectScreen(onSelect: (pet) { setState(() { selectedPet = pet; _index = 2; }); }),
     FeederScreen(petType: selectedPet),
-    HistoryScreen(),
-    ProfileScreen(),
+    HistoryScreen(petType: selectedPet),
+    ProfileScreen(petType: selectedPet),
   ];
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ class PettPet {
 }
 class PettData {
   static List<PettPet> pets = [
-    PettPet(name: 'มังคุค', type: 'cat', age: 2, weight: 4.2),
+    PettPet(name: 'น้องแมว', type: 'cat', age: 2, weight: 4.2),
   ];
   static List<String> feedingTimes = ['08:00 - 100g', '18:00 - 100g'];
   static String lineToken = ''; // ไม่เก็บ Token ใน Flutter
