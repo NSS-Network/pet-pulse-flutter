@@ -16,7 +16,7 @@ class _MainNavState extends State<MainNav> {
   List<Widget> get _pages => [
     HomeScreen(onAddPet: () => setState(() => _index = 1)),
     PetSelectScreen(onSelect: (pet) { setState(() { selectedPet = pet; _index = 2; }); }),
-    FeederScreen(),
+    FeederScreen(petType: selectedPet),
     HistoryScreen(),
     ProfileScreen(),
   ];
